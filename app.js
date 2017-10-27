@@ -56,7 +56,7 @@ app.use('/campgrounds/:id/comments',commentRoutes);
 
 
 app.listen(port,function(){
-	console.log('YelpCamp server is running on port'+port);
+	console.log('YelpCamp server is running on port '+port);
 });
 
 

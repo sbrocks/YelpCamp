@@ -1,3 +1,14 @@
+/*
+body{
+	height:100%;
+	width:100%;
+	background-image:url('https://farm3.staticflickr.com/2464/3694344957_14180103ed.jpg');/*your background image*/  
+    background-repeat:no-repeat;/*we want to have one single image not a repeated one*/  
+    background-size:cover;
+}
+*/
+
+
 .thumbnail img{
 	width:100%;
 }

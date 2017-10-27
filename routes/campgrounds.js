@@ -2,6 +2,7 @@ var express=require('express');
 var router=express.Router();
 var Campground=require('../models/campground');
 var middleware=require('../middleware');
+var stripe=require('stripe')('sk_test_ZEFynSjq4iBo8JduSGm8hDXT');
 
 router.get('/',function(req,res){
 	//Get all campgrounds from DB
@@ -61,6 +62,26 @@ router.get('/:id',function(req,res){
 	});
 
 	
+});
+
+//Payments
+router.post('/:id/charge',function(req,res){
+	res.send("Test");
+	console.log(req.body);
+	const amount=2500;
+
+	stripe.customers.create({
+		email: req.body.stripeEmail,
+		source: req.body.stripeToken
+	})
+	.then(customer => stripe.charges.create({
+		amount:amount,
+		description:'Web Development Ebook',
+		currency:'usd',
+		customer:customer.id
+	}))
+	//.then(charge => res.render('success'));
+
 });
 
 //Edit campground route

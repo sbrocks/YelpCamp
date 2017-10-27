@@ -20,6 +20,19 @@
 					<p>
 						<em>Submitted By <%= campground.author.username %></em>
 					</p>
+
+					<form action="/campgrounds/<%= campground._id %>/charge" method="POST">
+						<script
+							src="https://checkout.stripe.com/checkout.js"
+							class="stripe-button"
+							data-key="pk_test_k5V1qO11rOO4X1UTdtL5I875"
+							data-amount="2500"
+							data-name="Web Development Ebook"
+							data-description="Ebook written by Shaury"
+							data-locale="auto">
+						</script>
+					</form> 
+
 					<% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
 						<a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
 						<form id="delete-form" action="/campgrounds//<%= campground._id %>?_method=DELETE" method="POST">
