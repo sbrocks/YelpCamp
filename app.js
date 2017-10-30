@@ -17,7 +17,13 @@ var indexRoutes=require('./routes/index');
 
 var app=express();
 
-mongoose.connect('mongodb://localhost/yelp_camp');
+mongoose.connect('mongodb://localhost/yelp_camp',function(err,db){
+	if(err){
+		console.log(err);
+	} else {
+		console.log('Connected to database');
+	}
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));

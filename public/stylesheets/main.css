@@ -14,11 +14,15 @@ body{
 }
 
 .thumbnail{
-	padding: 0;
+	padding: 3px;
 }
 
 .thumbnail .caption-full{
 	padding: 9px;
+}
+
+#edit{
+	padding-top: 5px;
 }
 
 #delete-form{

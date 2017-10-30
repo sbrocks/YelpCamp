@@ -5,20 +5,34 @@ var middleware=require('../middleware');
 var stripe=require('stripe')('sk_test_ZEFynSjq4iBo8JduSGm8hDXT');
 
 router.get('/',function(req,res){
-	//Get all campgrounds from DB
-	Campground.find({},function(err,campgrounds){
-		if(err){
-			console.log(err);
-		} else {
-			res.render('campgrounds/index',{campgrounds:campgrounds});
-		}
-	});
-
-
-	//res.render('campgrounds',{campgrounds:campgrounds});
-	// we are passing an object for frontend    {name,data}
-	//here, data is the campgrounds array
-	//and we can give any name to it for using it in frontend
+	var noMatch=null;
+	if(req.query.search){
+		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+		//Get all campgrounds from DB
+		Campground.find({name:regex},function(err,campgrounds){
+			if(err){
+				console.log(err);
+			} else {
+				if(campgrounds.length<1){
+					noMatch="No campgrounds match that query, please try again";
+				}
+				res.render('campgrounds/index',{campgrounds:campgrounds,noMatch:noMatch});
+			}
+		});
+	} else {
+		//Get all campgrounds from DB
+		Campground.find({},function(err,campgrounds){
+			if(err){
+				console.log(err);
+			} else {
+				res.render('campgrounds/index',{campgrounds:campgrounds,noMatch:noMatch});
+			}
+		});
+		//res.render('campgrounds',{campgrounds:campgrounds});
+		// we are passing an object for frontend    {name,data}
+		//here, data is the campgrounds array
+		//and we can give any name to it for using it in frontend	
+	}
 });
 
 router.post('/',middleware.isLoggedIn,function(req,res){
@@ -114,7 +128,9 @@ router.delete('/:id',middleware.checkCampgroundOwnership,function(req,res){
 	});
 });
 
-
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports=router;
 
